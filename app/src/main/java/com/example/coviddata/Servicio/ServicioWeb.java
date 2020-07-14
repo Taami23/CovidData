@@ -1,5 +1,7 @@
 package com.example.coviddata.Servicio;
 
+import com.example.coviddata.Respuestas.RespuestaWSDataNacion;
+import com.example.coviddata.Respuestas.RespuestaWSDataRegion;
 import com.example.coviddata.Respuestas.RespuestaWSDataRegiones;
 import com.example.coviddata.Respuestas.RespuestaWSRegiones;
 
@@ -13,4 +15,12 @@ public interface ServicioWeb {
 
     @POST("data/all")
     Call<RespuestaWSDataRegiones> dataRegiones();
+
+
+    @POST("nacional")
+    Call<RespuestaWSDataNacion> nacional();
+
+
+    @POST("{idregion}")
+    Call<RespuestaWSDataRegion> region();
 }
