@@ -1,11 +1,12 @@
 package com.example.coviddata.Objetos;
 
 public class Reporte {
-   private String acumulado_total;
-   private String casos_nuevos_total;
-   private String casos_nuevos_csintomas;
-   private String casos_nuevos_ssintomas;
-   private String casos_nuevos_snotificar;
-   private String fallecidos;
-   private String casos_activos_confirmados;
+    private String region;
+   private Integer acumulado_total;
+   private Integer casos_nuevos_total;
+   private Integer casos_nuevos_csintomas;
+   private Integer casos_nuevos_ssintomas;
+   private Integer casos_nuevos_snotificar;
+   private Integer fallecidos;
+   private Integer casos_activos_confirmados;
 }
