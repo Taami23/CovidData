@@ -11,7 +11,7 @@ import retrofit2.http.POST;
 public interface ServicioWeb {
 
     @POST("regiones")
-    Call<RespuestaWSRegiones> regiones ();
+    Call<RespuestaWSRegiones> regiones();
 
     @POST("data/all")
     Call<RespuestaWSDataRegiones> dataRegiones();
