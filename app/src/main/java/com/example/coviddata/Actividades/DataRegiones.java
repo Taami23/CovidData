@@ -6,11 +6,11 @@ import android.os.Bundle;
 
 import com.example.coviddata.R;
 
-public class datos_regionales extends AppCompatActivity {
+public class DataRegiones extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_datos_regionales);
+        setContentView(R.layout.activity_data_regiones);
     }
 }
