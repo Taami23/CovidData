@@ -1,7 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Actividades.MainActivity" />
+    android:orientation="vertical"
+    tools:context=".Actividades.MainActivity">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Covid Data"
+        android:gravity="center"
+        android:textSize="50dp"
+        ></TextView>
+
+    <Button
+        android:id="@+id/nacionales"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Reporte Nacional"
+        android:layout_margin="30dp"
+        android:textColor="@color/design_default_color_on_secondary"
+        ></Button>
+    <Button
+        android:id="@+id/regionales"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Reportes Regionales"
+        android:layout_margin="30dp"
+        android:textColor="@color/design_default_color_on_secondary"
+        ></Button>
+    <Button
+        android:id="@+id/region"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Buscar reporte"
+        android:layout_margin="30dp"
+        android:textColor="@color/design_default_color_on_secondary"
+        ></Button>
+</LinearLayout>
