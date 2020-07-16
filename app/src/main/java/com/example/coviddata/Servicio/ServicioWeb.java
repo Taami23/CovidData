@@ -17,10 +17,10 @@ public interface ServicioWeb {
     Call<RespuestaWSDataRegiones> dataRegiones();
 
 
-    @POST("nacional")
+    @POST("data/nacional")
     Call<RespuestaWSDataNacion> nacional();
 
 
-    @POST("{idregion}")
+    @POST("data/{idregion}")
     Call<RespuestaWSDataRegion> region();
 }
