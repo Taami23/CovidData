@@ -33,11 +33,11 @@
         android:textColor="@color/design_default_color_on_secondary"
         ></Button>
     <Button
-        android:id="@+id/region"
+        android:id="@+id/porRegion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Buscar reporte"
+        android:text="Buscar reporte por region"
         android:layout_margin="30dp"
         android:textColor="@color/design_default_color_on_secondary"
         ></Button>

@@ -16,16 +16,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
     private ServicioWeb servicioWeb;
     private Button dataNacion;
-    private Button dataRegiones;
-    private Button dataRegion;
+    private Button dataPorRegiones;
+    private Button dataRegionales;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         dataNacion = findViewById(R.id.nacionales);
-        dataRegiones = findViewById(R.id.regionales);
-        dataRegion = findViewById(R.id.region);
+        dataRegionales = findViewById(R.id.regionales);
+        dataPorRegiones = findViewById(R.id.porRegion);
 
         dataNacion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,17 +34,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        dataRegiones.setOnClickListener(new View.OnClickListener() {
+        dataPorRegiones.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initDataRegiones();
+                initDataPorRegiones();
             }
         });
 
-        dataRegion.setOnClickListener(new View.OnClickListener() {
+        dataRegionales.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initDataRegion();
+                initDataRegionales();
             }
         });
         Retrofit retrofit = new Retrofit.Builder().baseUrl("http://covid.unnamed-chile.com/api/")
@@ -58,15 +58,15 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-    private void initDataRegiones(){
-        Intent dRegiones = new Intent(this, DataRegiones.class);
-        startActivity(dRegiones);
+    private void initDataPorRegiones(){
+        Intent dPorRegiones = new Intent(this, DataPorRegion.class);
+        startActivity(dPorRegiones);
         finish();
     }
 
-    private void initDataRegion(){
-        Intent dRegion = new Intent(this, DataRegion.class);
-        startActivity(dRegion);
+    private void initDataRegionales(){
+        Intent dRegionales = new Intent(this, DataRegionales.class);
+        startActivity(dRegionales);
         finish();
     }
 }

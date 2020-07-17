@@ -8,12 +8,12 @@ import android.view.KeyEvent;
 
 import com.example.coviddata.R;
 
-public class DataRegion extends AppCompatActivity {
+public class DataRegionales extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_data_region);
+        setContentView(R.layout.activity_data_regionales);
     }
     private void initMain(){
         Intent main = new Intent(this, MainActivity.class);
