@@ -31,12 +31,11 @@ public class MostrarRegiones extends AppCompatActivity {
     private ServicioWeb servicioWeb;
     private static String uniqueID = null;
     private static final  String PREF_UNIQUE_ID = "PREF_UNIQUE_ID";
-    private SharedPreferences preferences;
-    private SharedPreferences.Editor editor;
     public static final String CREDENTIALS = MostrarRegiones.class.getPackage().getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mostrar_regiones);
         contenedorRegiones = findViewById(R.id.contenedorRegiones);
@@ -122,13 +121,13 @@ public class MostrarRegiones extends AppCompatActivity {
         editor.putString("info", info);
         editor.putString("fecha", respuestaWSDataRegion.getFecha());
         //editor.putString("estado", respuestaWSDataRegion.);
-        editor.putString("acumulado_total", respuestaWSDataRegion.getReporte().getAcumulado_total().toString());
-        editor.putString("casos_nuevos_total", respuestaWSDataRegion.getReporte().getCasos_nuevos_total().toString());
-        editor.putString("casos_nuevos_csintomas", respuestaWSDataRegion.getReporte().getCasos_nuevos_csintomas().toString());
-        editor.putString("casos_nuevos_ssintomas", respuestaWSDataRegion.getReporte().getCasos_nuevos_ssintomas().toString());
-        editor.putString("casos_nuevos_snotificar", respuestaWSDataRegion.getReporte().getCasos_nuevos_snotificar().toString());
-        editor.putString("fallecidos", respuestaWSDataRegion.getReporte().getFallecidos().toString());
-        editor.putString("casos_activos_confirmados", respuestaWSDataRegion.getReporte().getCasos_activos_confirmados().toString());
+        editor.putInt("acumulado_total", respuestaWSDataRegion.getReporte().getAcumulado_total());
+        editor.putInt("casos_nuevos_total", respuestaWSDataRegion.getReporte().getCasos_nuevos_total());
+        editor.putInt("casos_nuevos_csintomas", respuestaWSDataRegion.getReporte().getCasos_nuevos_csintomas());
+        editor.putInt("casos_nuevos_ssintomas", respuestaWSDataRegion.getReporte().getCasos_nuevos_ssintomas());
+        editor.putInt("casos_nuevos_snotificar", respuestaWSDataRegion.getReporte().getCasos_nuevos_snotificar());
+        editor.putInt("fallecidos", respuestaWSDataRegion.getReporte().getFallecidos());
+        editor.putInt("casos_activos_confirmados", respuestaWSDataRegion.getReporte().getCasos_activos_confirmados());
         editor.commit();
     }
 

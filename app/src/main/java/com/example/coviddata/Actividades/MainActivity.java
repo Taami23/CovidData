@@ -14,7 +14,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
-    private ServicioWeb servicioWeb;
     private Button dataNacion;
     private Button dataPorRegiones;
     private Button dataRegionales;
@@ -22,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
         dataNacion = findViewById(R.id.nacionales);
         dataRegionales = findViewById(R.id.regionales);
@@ -47,9 +47,6 @@ public class MainActivity extends AppCompatActivity {
                 initDataRegionales();
             }
         });
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://covid.unnamed-chile.com/api/")
-                .addConverterFactory(GsonConverterFactory.create()).build();
-        servicioWeb = retrofit.create(ServicioWeb.class);
     }
 
     private void initDataNacion(){
