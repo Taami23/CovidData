@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Actividades.DataPorRegion"
+    tools:context=".Actividades.MostrarRegiones"
     android:orientation="vertical">
 
     <TextView
@@ -23,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:padding="20dp"
             android:id="@+id/contenedorRegiones">
         </LinearLayout>
     </ScrollView>

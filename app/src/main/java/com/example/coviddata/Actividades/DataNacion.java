@@ -13,7 +13,7 @@ public class DataNacion extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_data_nacion);
+        setContentView(R.layout.activity_data);
     }
 
     private void initMain(){

@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initDataPorRegiones(){
-        Intent dPorRegiones = new Intent(this, DataPorRegion.class);
+        Intent dPorRegiones = new Intent(this, MostrarRegiones.class);
         startActivity(dPorRegiones);
         finish();
     }

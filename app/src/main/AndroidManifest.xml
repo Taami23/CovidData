@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Actividades.DataPorRegion" />
+        <activity android:name=".Actividades.Data"></activity>
+        <activity android:name=".Actividades.MostrarRegiones" />
         <activity android:name=".Actividades.DataRegionales" />
         <activity android:name=".Actividades.DataNacion" />
         <activity android:name=".Actividades.MainActivity">

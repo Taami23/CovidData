@@ -1,0 +1,163 @@
+package com.example.coviddata.Actividades;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+
+import com.example.coviddata.Objetos.Region;
+import com.example.coviddata.R;
+import com.example.coviddata.Respuestas.RespuestaWSDataRegion;
+import com.example.coviddata.Respuestas.RespuestaWSRegiones;
+import com.example.coviddata.Servicio.ServicioWeb;
+
+import java.util.UUID;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+public class MostrarRegiones extends AppCompatActivity {
+    LinearLayout contenedorRegiones;
+    private ServicioWeb servicioWeb;
+    private static String uniqueID = null;
+    private static final  String PREF_UNIQUE_ID = "PREF_UNIQUE_ID";
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
+    public static final String CREDENTIALS = MostrarRegiones.class.getPackage().getName();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_mostrar_regiones);
+        contenedorRegiones = findViewById(R.id.contenedorRegiones);
+
+        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://covid.unnamed-chile.com/api/")
+                .addConverterFactory(GsonConverterFactory.create()).build();
+        servicioWeb = retrofit.create(ServicioWeb.class);
+        holi();
+
+    }
+
+    public void holi(){
+
+        final Call<RespuestaWSRegiones> respuestaWSRegionesCall = servicioWeb.regiones();
+        respuestaWSRegionesCall.enqueue(new Callback<RespuestaWSRegiones>() {
+            @Override
+            public void onResponse(Call<RespuestaWSRegiones> call, Response<RespuestaWSRegiones> response) {
+                if (response != null){
+                    RespuestaWSRegiones respuestaWSRegiones = response.body();
+                    Log.d("Retrofit", respuestaWSRegiones.toString());
+
+                    Region regiones[] = respuestaWSRegiones.getRegiones();
+                    agregarBotones(regiones, contenedorRegiones);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RespuestaWSRegiones> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    public void agregarBotones (Region regiones[], LinearLayout contenedor){
+        for (int i = 0; i < regiones.length ; i++) {
+            Button boton = new Button (getApplicationContext());
+            boton.setText(regiones[i].getNombre());
+            boton.setId(regiones[i].getId());
+            boton.setOnClickListener(enviarDatos);
+            contenedor.addView(boton);
+
+
+        }
+    }
+
+    private View.OnClickListener enviarDatos = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //Button ojtboton= (Button) v;
+            final Call<RespuestaWSDataRegion> respuestaWSDataRegionCall = servicioWeb.region(v.getId());
+            respuestaWSDataRegionCall.enqueue(new Callback<RespuestaWSDataRegion>() {
+                @Override
+                public void onResponse(Call<RespuestaWSDataRegion> call, Response<RespuestaWSDataRegion> response) {
+                    if(response !=null){
+                        RespuestaWSDataRegion respuestaWSDataRegion = response.body();
+                        Log.d("Retrofit", respuestaWSDataRegion.toString());
+                        savePreferences(respuestaWSDataRegion);
+                        initData();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<RespuestaWSDataRegion> call, Throwable t) {
+
+                }
+            });
+        }
+    };
+
+    private void initData(){
+        Intent data = new Intent(this, Data.class);
+        startActivity(data);
+        finish();
+    }
+
+    public void savePreferences(RespuestaWSDataRegion respuestaWSDataRegion){
+        SharedPreferences preferences = getSharedPreferences(CREDENTIALS, MODE_PRIVATE);
+
+        String info = respuestaWSDataRegion.getInfo();
+
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("info", info);
+        editor.putString("fecha", respuestaWSDataRegion.getFecha());
+        //editor.putString("estado", respuestaWSDataRegion.);
+        editor.putString("acumulado_total", respuestaWSDataRegion.getReporte().getAcumulado_total().toString());
+        editor.putString("casos_nuevos_total", respuestaWSDataRegion.getReporte().getCasos_nuevos_total().toString());
+        editor.putString("casos_nuevos_csintomas", respuestaWSDataRegion.getReporte().getCasos_nuevos_csintomas().toString());
+        editor.putString("casos_nuevos_ssintomas", respuestaWSDataRegion.getReporte().getCasos_nuevos_ssintomas().toString());
+        editor.putString("casos_nuevos_snotificar", respuestaWSDataRegion.getReporte().getCasos_nuevos_snotificar().toString());
+        editor.putString("fallecidos", respuestaWSDataRegion.getReporte().getFallecidos().toString());
+        editor.putString("casos_activos_confirmados", respuestaWSDataRegion.getReporte().getCasos_activos_confirmados().toString());
+        editor.commit();
+    }
+
+    public synchronized static String id(Context context) {
+        if (uniqueID == null) {
+            SharedPreferences sharedPrefs = context.getSharedPreferences(
+                    PREF_UNIQUE_ID, Context.MODE_PRIVATE);
+            uniqueID = sharedPrefs.getString(PREF_UNIQUE_ID, null);
+            if (uniqueID == null) {
+                uniqueID = UUID.randomUUID().toString();
+                SharedPreferences.Editor editor = sharedPrefs.edit();
+                editor.putString(PREF_UNIQUE_ID, uniqueID);
+                editor.commit();
+            }
+        }
+        return uniqueID;
+    }
+
+    private void initMain(){
+        Intent main = new Intent(this, MainActivity.class);
+        startActivity(main);
+        finish();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            initMain();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+}

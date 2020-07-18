@@ -7,6 +7,7 @@ import com.example.coviddata.Respuestas.RespuestaWSRegiones;
 
 import retrofit2.Call;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface ServicioWeb {
 
@@ -22,5 +23,5 @@ public interface ServicioWeb {
 
 
     @POST("data/{idregion}")
-    Call<RespuestaWSDataRegion> region();
+    Call<RespuestaWSDataRegion> region(@Path("idregion") Integer id);
 }
