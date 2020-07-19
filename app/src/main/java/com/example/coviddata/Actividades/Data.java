@@ -97,7 +97,8 @@ public class Data extends AppCompatActivity {
         pie.legend().title()
                 .text("Casos")
                 .padding(0d, 0d, 10d, 0d);
-
+        String color[] = {"#ffbe0b", "#f77f00", "#00b4d8", "#e6ee9c"};
+        pie.palette(color);
         pie.legend()
                 .position("center-bottom")
                 .itemsLayout(LegendLayout.VERTICAL)
