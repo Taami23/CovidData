@@ -10,6 +10,8 @@ import com.anychart.AnyChartView;
 import com.anychart.chart.common.dataentry.DataEntry;
 import com.anychart.chart.common.dataentry.ValueDataEntry;
 import com.anychart.charts.Polar;
+import com.anychart.enums.Align;
+import com.anychart.enums.LegendLayout;
 import com.anychart.scales.Linear;
 import com.anychart.data.Mapping;
 import com.anychart.data.Set;
@@ -24,6 +26,7 @@ import com.example.coviddata.Servicio.ServicioWeb;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,14 +40,15 @@ public class DataRegionales extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_data_regionales);
         Retrofit retrofit = new Retrofit.Builder().baseUrl("http://covid.unnamed-chile.com/api/")
                 .addConverterFactory(GsonConverterFactory.create()).build();
         servicioWeb = retrofit.create(ServicioWeb.class);
-        holi();
+        servicio();
     }
 
-    public void holi(){
+    public void servicio(){
 
         final Call<RespuestaWSDataRegiones> respuestaWSDataRegionesCall = servicioWeb.dataRegiones();
         respuestaWSDataRegionesCall.enqueue(new Callback<RespuestaWSDataRegiones>() {
@@ -92,24 +96,38 @@ public class DataRegionales extends AppCompatActivity {
 
         Set set = Set.instantiate();
         set.data(data);
-        Mapping series1Data = set.mapAs("{ x: 'x', value: 'value' }");
-        Mapping series2Data = set.mapAs("{ x: 'x', value: 'value2' }");
-        Mapping series3Data = set.mapAs("{ x: 'x', value: 'value3' }");
-        Mapping series4Data = set.mapAs("{ x: 'x', value: 'value4' }");
+        Mapping series1Data = set.mapAs("{ x: 'x', title: 'title1', value: 'value' }");
+        Mapping series2Data = set.mapAs("{ x: 'x', title: 'title2', value: 'value2' }");
+        Mapping series3Data = set.mapAs("{ x: 'x', title: 'title3', value: 'value3' }");
+        Mapping series4Data = set.mapAs("{ x: 'x', title: 'title4', value: 'value4' }");
         polar.column(series1Data);
         polar.column(series2Data);
         polar.column(series3Data);
         polar.column(series4Data);
-        polar.title("Leyenda");
+        polar.title().fontColor("#CEE8F2");
+
+        polar.background("#102530");
+        polar.labels().fontColor("#CEE8F2");
+        polar.getSeriesAt(0).name("Sin Notificar");
+        polar.getSeriesAt(1).name("Sin Sintomas");
+        polar.getSeriesAt(2).name("Con Sintomas");
+        polar.getSeriesAt(3).name("Nuevos Totales");
+
+
+        //polar.legend().itemsFormat("{%seriesName} caca");
+        polar.legend(true);
+        polar.legend().fontColor("#CEE8F2");
+
+        polar.legend().position("center-bottom").itemsLayout(LegendLayout.VERTICAL).align(Align.CENTER);
 
         polar.sortPointsByX(true)
                 .defaultSeriesType(PolarSeriesType.COLUMN)
                 .yAxis(false)
                 .xScale(ScaleTypes.ORDINAL);
 
-
+        polar.innerRadius(20);
         ((Linear) polar.yScale(Linear.class)).stackMode(ScaleStackMode.VALUE);
-        polar.tooltip().titleFormat("caca")
+        polar.tooltip().format("{%title} {%value}")
                 .displayMode(TooltipDisplayMode.UNION);
         anyChartView.setChart(polar);
     }
@@ -117,6 +135,10 @@ public class DataRegionales extends AppCompatActivity {
     private class CustomDataEntry extends ValueDataEntry {
         CustomDataEntry(String x, Number value, Number value2, Number value3, Number value4) {
             super(x, value);
+            setValue("title1", "Sin notificar");
+            setValue("title2","Sin sintomas" );
+            setValue("title3","Con Sintomas" );
+            setValue("title4","Nuevos totales" );
             setValue("value2", value2);
             setValue("value3", value3);
             setValue("value4", value4);
