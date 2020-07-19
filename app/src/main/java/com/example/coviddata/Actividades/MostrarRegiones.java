@@ -11,7 +11,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-
 import com.example.coviddata.Objetos.Region;
 import com.example.coviddata.R;
 import com.example.coviddata.Respuestas.RespuestaWSDataRegion;
