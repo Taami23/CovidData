@@ -28,7 +28,7 @@
 
     </style>
     <style name="dialog" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
-        <item name="colorPrimary">@color/md_red_900</item>
+        <item name="colorPrimary">@color/md_cyan_A700</item>
         <item name="android:textColorPrimary">@color/md_white_1000</item>
         <item name="android:background">#2A2A2B</item>
     </style>

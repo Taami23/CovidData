@@ -3,6 +3,7 @@ package com.example.coviddata.Actividades;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -16,7 +17,12 @@ import com.example.coviddata.R;
 import com.example.coviddata.Respuestas.RespuestaWSDataRegion;
 import com.example.coviddata.Respuestas.RespuestaWSRegiones;
 import com.example.coviddata.Servicio.ServicioWeb;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.UUID;
 
 import retrofit2.Call;
@@ -96,11 +102,30 @@ public class MostrarRegiones extends AppCompatActivity {
             respuestaWSDataRegionCall.enqueue(new Callback<RespuestaWSDataRegion>() {
                 @Override
                 public void onResponse(Call<RespuestaWSDataRegion> call, Response<RespuestaWSDataRegion> response) {
-                    if(response !=null ){
-                        RespuestaWSDataRegion respuestaWSDataRegion = response.body();
-                        Log.d("Retrofit", respuestaWSDataRegion.toString());
-                        savePreferences(respuestaWSDataRegion);
-                        initData();
+                    if (response != null){
+                        if (response.body()!=null && response.code()==200){
+                            RespuestaWSDataRegion respuestaWSDataRegion = response.body();
+                            Log.d("Retrofit", respuestaWSDataRegion.toString());
+                            savePreferences(respuestaWSDataRegion);
+                            initData();
+                        }else if (response.code()==400){
+                            try {
+                                JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                                String mensaje = jsonObject.getString("info");
+                                new MaterialAlertDialogBuilder(MostrarRegiones.this)
+                                        .setTitle("Upps! Ha ocurrido un error")
+                                        .setMessage(mensaje)
+                                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                            }
+                                        })
+                                        .show();
+                            }catch (JSONException | IOException e){
+                                e.printStackTrace();
+                            }
+                        }
+
                     }
                 }
 

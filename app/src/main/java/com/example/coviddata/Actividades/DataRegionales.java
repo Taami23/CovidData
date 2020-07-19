@@ -5,13 +5,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+
+import com.anychart.APIlib;
 import com.anychart.AnyChart;
 import com.anychart.AnyChartView;
 import com.anychart.chart.common.dataentry.DataEntry;
 import com.anychart.chart.common.dataentry.ValueDataEntry;
+import com.anychart.charts.Cartesian;
 import com.anychart.charts.Polar;
+import com.anychart.core.cartesian.series.Column;
 import com.anychart.enums.Align;
+import com.anychart.enums.Anchor;
+import com.anychart.enums.HoverMode;
 import com.anychart.enums.LegendLayout;
+import com.anychart.enums.Position;
+import com.anychart.enums.TooltipPositionMode;
 import com.anychart.scales.Linear;
 import com.anychart.data.Mapping;
 import com.anychart.data.Set;
@@ -60,7 +70,9 @@ public class DataRegionales extends AppCompatActivity {
 
                     Reporte reportes[] = respuestaWSDataRegiones.getReporte();
                     Log.d("Retrofit", reportes[0].toString());
-                    generarGrafico(reportes);
+                    generarGrafico2(reportes);
+                    generarGrafico1(reportes);
+
                 }
             }
             @Override
@@ -72,12 +84,11 @@ public class DataRegionales extends AppCompatActivity {
 
     }
 
-    public void generarGrafico (Reporte reportes[]){
+    public void generarGrafico1 (Reporte reportes[]){
         AnyChartView anyChartView = findViewById(R.id.any_chart_view);
+        APIlib.getInstance().setActiveAnyChartView(anyChartView);
         anyChartView.setProgressBar(findViewById(R.id.progress_bar));
-
         Polar polar = AnyChart.polar();
-
         List<DataEntry> data = new ArrayList<>();
         String nombre;
         for (int i = 0; i < reportes.length; i++) {
@@ -93,7 +104,6 @@ public class DataRegionales extends AppCompatActivity {
             }
 
         }
-
         Set set = Set.instantiate();
         set.data(data);
         Mapping series1Data = set.mapAs("{ x: 'x', title: 'title1', value: 'value' }");
@@ -105,7 +115,8 @@ public class DataRegionales extends AppCompatActivity {
         polar.column(series3Data);
         polar.column(series4Data);
         polar.title().fontColor("#CEE8F2");
-
+        String color[] = {"#ffbe0b", "#f77f00", "#00b4d8", "#80b918"};
+        polar.palette(color);
         polar.background("#102530");
         polar.labels().fontColor("#CEE8F2");
         polar.getSeriesAt(0).name("Sin Notificar");
@@ -130,7 +141,49 @@ public class DataRegionales extends AppCompatActivity {
         polar.tooltip().format("{%title} {%value}")
                 .displayMode(TooltipDisplayMode.UNION);
         anyChartView.setChart(polar);
+
     }
+    private void generarGrafico2(Reporte reportes[]){
+        AnyChartView anyChartView1 = findViewById(R.id.any_chart_view1);
+        anyChartView1.setProgressBar(findViewById(R.id.progress_bar1));
+        APIlib.getInstance().setActiveAnyChartView (anyChartView1);
+        Cartesian cartesian = AnyChart.column();
+
+        List<DataEntry> data = new ArrayList<>();
+        for (int i = 0; i < reportes.length; i++) {
+            if (reportes[i].getRegion().equalsIgnoreCase("Metropolitana")) {
+              data.add(new ValueDataEntry("Sin notificar", reportes[i].getCasos_nuevos_snotificar()));
+              data.add(new ValueDataEntry("Sin sintomas", reportes[i].getCasos_nuevos_ssintomas()));
+                data.add(new ValueDataEntry("Con sintomas", reportes[i].getCasos_nuevos_csintomas()));
+                data.add(new ValueDataEntry("Totales", reportes[i].getCasos_nuevos_total()));
+            }
+
+        }
+        Column column = cartesian.column(data);
+        column.color("#ffbe0b");
+        column.tooltip()
+                .titleFormat("{%X}")
+                .position(Position.CENTER_BOTTOM)
+                .anchor(Anchor.AUTO)
+                .offsetX(0d)
+                .offsetY(5d)
+                .format("{%Value}{groupsSeparator: }");
+
+        cartesian.animation(true);
+        cartesian.title().fontColor("#CEE8F2");
+        cartesian.labels().fontColor("#CEE8F2");
+        cartesian.background("#102530");
+        cartesian.yScale().minimum(0d);
+
+        cartesian.yAxis(0).labels().format("{%Value}{groupsSeparator: }");
+
+        cartesian.tooltip().positionMode(TooltipPositionMode.POINT);
+        cartesian.interactivity().hoverMode(HoverMode.BY_X);
+
+        anyChartView1.setChart(cartesian);
+
+    }
+
 
     private class CustomDataEntry extends ValueDataEntry {
         CustomDataEntry(String x, Number value, Number value2, Number value3, Number value4) {

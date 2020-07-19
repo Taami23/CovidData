@@ -31,19 +31,57 @@
         android:fontFamily="@font/yanoneka"
         ></TextView>
 
-    <com.anychart.AnyChartView
-        android:id="@+id/any_chart_view"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Región Metropolitana"
+                android:gravity="center"
+                android:padding="20dp"
+                android:textSize="20dp"
+                android:fontFamily="@font/yanoneka"
+                ></TextView>
+            <com.anychart.AnyChartView
+                android:id="@+id/any_chart_view1"
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+                >
+                <ProgressBar
+                    android:id="@+id/progress_bar1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    />
+            </com.anychart.AnyChartView>
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Regiones"
+                android:gravity="center"
+                android:padding="20dp"
+                android:textSize="25dp"
+                android:fontFamily="@font/yanoneka"
+                ></TextView>
+            <com.anychart.AnyChartView
+                android:id="@+id/any_chart_view"
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+                >
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    />
+            </com.anychart.AnyChartView>
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>
