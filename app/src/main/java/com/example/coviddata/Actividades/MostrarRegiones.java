@@ -74,8 +74,16 @@ public class MostrarRegiones extends AppCompatActivity {
         for (int i = 0; i < regiones.length ; i++) {
             Button boton = new Button (getApplicationContext());
             boton.setText(regiones[i].getNombre());
-            boton.setId(regiones[i].getId());
             boton.setOnClickListener(enviarDatos);
+            boton.setId(regiones[i].getId());
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT );
+            params.setMargins(10, 30, 10, 0);
+            boton.setLayoutParams(params);
+            boton.setBackgroundResource(R.drawable.prueba);
+            boton.setTextAppearance(getApplicationContext(), R.style.AppButton );
+            //boton.setTextColor(Color.parseColor("#FFE3F2FD"));
+            //int color = Color.parseColor("#468BA6");
+            //boton.setBackgroundColor(color);
             contenedor.addView(boton);
 
 
@@ -85,12 +93,11 @@ public class MostrarRegiones extends AppCompatActivity {
     private View.OnClickListener enviarDatos = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //Button ojtboton= (Button) v;
             final Call<RespuestaWSDataRegion> respuestaWSDataRegionCall = servicioWeb.region(v.getId());
             respuestaWSDataRegionCall.enqueue(new Callback<RespuestaWSDataRegion>() {
                 @Override
                 public void onResponse(Call<RespuestaWSDataRegion> call, Response<RespuestaWSDataRegion> response) {
-                    if(response !=null){
+                    if(response !=null ){
                         RespuestaWSDataRegion respuestaWSDataRegion = response.body();
                         Log.d("Retrofit", respuestaWSDataRegion.toString());
                         savePreferences(respuestaWSDataRegion);

@@ -21,8 +21,11 @@ import com.anychart.enums.Align;
 import com.anychart.enums.LegendLayout;
 import com.example.coviddata.R;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
 
 public class Data extends AppCompatActivity {
     AnyChartView anyChartView;
@@ -30,6 +33,7 @@ public class Data extends AppCompatActivity {
     TextView titulo2;
     TextView titulo3;
     TextView titulo4;
+    TextView titulo5;
     Pie pie;
 
     @Override
@@ -41,6 +45,7 @@ public class Data extends AppCompatActivity {
         titulo2 = findViewById(R.id.titulo2);
         titulo3 = findViewById(R.id.titulo3);
         titulo4 = findViewById(R.id.titulo4);
+        titulo5 = findViewById(R.id.titulo5);
 
         anyChartView = findViewById(R.id.any_chart_view);
         anyChartView.setProgressBar(findViewById(R.id.progress_bar));
@@ -62,25 +67,31 @@ public class Data extends AppCompatActivity {
         int fallecidos = preferences.getInt("fallecidos", 0);
         int casos_activos_confirmados = preferences.getInt("casos_activos_confirmados", 0);
         Log.d("Data", preferences.getString("info", "no encontrado"));
-
+        Locale locale = new Locale("es", "ES");
 
         titulo.setText(info.toUpperCase());
-        titulo2.setText("Acumulado Total: "+ acumulado_total);
-        titulo3.setText("Casos nuevos totales: " + casos_nuevos_total);
-        titulo4.setText("Casos activos: " + casos_activos_confirmados);
+        titulo2.setText("Acumulado Total: "+ NumberFormat.getInstance(locale).format(acumulado_total));
+        titulo3.setText("Casos nuevos totales: " + NumberFormat.getInstance(locale).format(casos_nuevos_total));
+        titulo4.setText("Casos activos: " + NumberFormat.getInstance(locale).format(casos_activos_confirmados));
+        titulo5.setText("Fallecidos: " + NumberFormat.getInstance(locale).format(fallecidos));
 
         List<DataEntry> data = new ArrayList<>();
         data.add(new ValueDataEntry("Nuevos con Sintomas", casos_nuevos_csintomas));
         data.add(new ValueDataEntry("Nuevos sin Sintomas", casos_nuevos_ssintomas));
         data.add(new ValueDataEntry("Nuevos sin Notificar", casos_nuevos_snotificar));
-        data.add(new ValueDataEntry("Fallecidos", fallecidos));
 
         pie.data(data);
         pie.innerRadius("70%");
+        pie.container("container");
+        pie.draw(true);
 
-        pie.title("Holi");
+
+        pie.background("#102530");
 
         pie.labels().position("outside");
+        pie.labels().fontColor("#CEE8F2");
+
+        pie.legend().fontColor("#CEE8F2");
 
         pie.legend().title().enabled(true);
         pie.legend().title()
@@ -90,7 +101,7 @@ public class Data extends AppCompatActivity {
         pie.legend()
                 .position("center-bottom")
                 .itemsLayout(LegendLayout.VERTICAL)
-                .align(Align.LEFT);
+                .align(Align.CENTER);
 
         anyChartView.setChart(pie);
 

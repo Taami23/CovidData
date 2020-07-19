@@ -5,40 +5,64 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Actividades.MainActivity">
-    <TextView
+    tools:context=".Actividades.MainActivity"
+    android:background="#102530"
+    android:weightSum="3">
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Covid Data"
-        android:gravity="center"
-        android:textSize="50dp"
-        ></TextView>
+        android:orientation="vertical"
+        android:layout_weight="1">
 
-    <Button
-        android:id="@+id/nacionales"
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Covid Data"
+            android:gravity="center"
+            android:textSize="50dp"
+            android:layout_marginTop="50dp"
+            ></TextView>
+        <ImageView
+            android:layout_marginTop="20dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:background="@drawable/logo1"
+            android:layout_gravity="center"
+            >
+
+        </ImageView>
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Reporte Nacional"
-        android:layout_margin="30dp"
-        android:textColor="@color/design_default_color_on_secondary"
-        ></Button>
-    <Button
-        android:id="@+id/regionales"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Reportes Regionales"
-        android:layout_margin="30dp"
-        android:textColor="@color/design_default_color_on_secondary"
-        ></Button>
-    <Button
-        android:id="@+id/porRegion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Buscar reporte por region"
-        android:layout_margin="30dp"
-        android:textColor="@color/design_default_color_on_secondary"
-        ></Button>
+        android:layout_weight="2"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/nacionales"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="30dp"
+            android:text="Reporte Nacional"></Button>
+
+        <Button
+            android:id="@+id/regionales"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="30dp"
+            android:text="Reportes Regionales"></Button>
+
+        <Button
+            android:id="@+id/porRegion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="30dp"
+            android:text="Buscar reporte por region"></Button>
+
+    </LinearLayout>
+
+
 </LinearLayout>
