@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.TextView;
 
+import com.anychart.APIlib;
 import com.anychart.AnyChart;
 import com.anychart.AnyChartView;
 import com.anychart.chart.common.dataentry.DataEntry;
@@ -35,7 +36,8 @@ public class Data extends AppCompatActivity {
     TextView titulo4;
     TextView titulo5;
     Pie pie;
-
+    Integer vengoDe;
+    private TextView fecha1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,9 +48,9 @@ public class Data extends AppCompatActivity {
         titulo3 = findViewById(R.id.titulo3);
         titulo4 = findViewById(R.id.titulo4);
         titulo5 = findViewById(R.id.titulo5);
-
+        fecha1 = findViewById(R.id.soyTitleyFecha);
         anyChartView = findViewById(R.id.any_chart_view);
-        anyChartView.setProgressBar(findViewById(R.id.progress_bar));
+        anyChartView.setBackgroundColor("#102530");
 
         pie = AnyChart.pie();
 
@@ -56,9 +58,11 @@ public class Data extends AppCompatActivity {
     }
 
     private void mostarDatos(){
+        APIlib.getInstance().setActiveAnyChartView(anyChartView);
+        anyChartView.setProgressBar(findViewById(R.id.progress_bar));
         SharedPreferences preferences = getSharedPreferences(MostrarRegiones.CREDENTIALS, MODE_PRIVATE);
         String info = preferences.getString("info", "no encontrado");
-        String fecha= preferences.getString("fecha", "no encontrado");
+        String fecha = preferences.getString("fecha", "no encontrado");
         int acumulado_total = preferences.getInt("acumulado_total", 0);
         int casos_nuevos_total = preferences.getInt("casos_nuevos_total", 0);
         int casos_nuevos_csintomas = preferences.getInt("casos_nuevos_csintomas", 0);
@@ -66,9 +70,10 @@ public class Data extends AppCompatActivity {
         int casos_nuevos_snotificar = preferences.getInt("casos_nuevos_snotificar", 0);
         int fallecidos = preferences.getInt("fallecidos", 0);
         int casos_activos_confirmados = preferences.getInt("casos_activos_confirmados", 0);
+        vengoDe = preferences.getInt("Actividad", 0);
         Log.d("Data", preferences.getString("info", "no encontrado"));
         Locale locale = new Locale("es", "ES");
-
+        fecha1.setText("Datos actualizados al: "+fecha);
         titulo.setText(info.toUpperCase());
         titulo2.setText("Acumulado Total: "+ NumberFormat.getInstance(locale).format(acumulado_total));
         titulo3.setText("Casos nuevos totales: " + NumberFormat.getInstance(locale).format(casos_nuevos_total));
@@ -87,7 +92,6 @@ public class Data extends AppCompatActivity {
 
 
         pie.background("#102530");
-
         pie.labels().position("outside");
         pie.labels().fontColor("#CEE8F2");
 
@@ -101,23 +105,30 @@ public class Data extends AppCompatActivity {
         pie.palette(color);
         pie.legend()
                 .position("center-bottom")
-                .itemsLayout(LegendLayout.VERTICAL)
+                .itemsLayout(LegendLayout.HORIZONTAL_EXPANDABLE)
                 .align(Align.CENTER);
-
         anyChartView.setChart(pie);
 
     }
-
     private void initMostrarRegiones(){
         Intent regiones = new Intent(this, MostrarRegiones.class);
         startActivity(regiones);
+        finish();
+    }
+    private void initMain(){
+        Intent main = new Intent(this, MainActivity.class);
+        startActivity(main);
         finish();
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            initMostrarRegiones();
+            if (vengoDe == 1){
+                initMain();
+            }else{
+                initMostrarRegiones();
+            }
         }
         return super.onKeyDown(keyCode, event);
     }

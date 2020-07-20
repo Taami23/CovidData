@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.anychart.APIlib;
 import com.anychart.AnyChart;
@@ -47,11 +48,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class DataRegionales extends AppCompatActivity {
     private ServicioWeb servicioWeb;
    private AnyChartView anyChartView;
+   private AnyChartView anyChartView1;
+   private TextView fecha1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_data_regionales);
+        fecha1 = findViewById(R.id.soyTitleyFecha);
+        anyChartView = findViewById(R.id.any_chart_view);
+        anyChartView.setBackgroundColor("#102530");
+        anyChartView1 = findViewById(R.id.any_chart_view1);
+        anyChartView1.setBackgroundColor("#102530");
         Retrofit retrofit = new Retrofit.Builder().baseUrl("http://covid.unnamed-chile.com/api/")
                 .addConverterFactory(GsonConverterFactory.create()).build();
         servicioWeb = retrofit.create(ServicioWeb.class);
@@ -67,9 +75,10 @@ public class DataRegionales extends AppCompatActivity {
                 if (response != null){
                     RespuestaWSDataRegiones respuestaWSDataRegiones = response.body();
                     Log.d("Retrofit", respuestaWSDataRegiones.toString());
-
+                    String fecha = respuestaWSDataRegiones.getFecha();
                     Reporte reportes[] = respuestaWSDataRegiones.getReporte();
                     Log.d("Retrofit", reportes[0].toString());
+                    fecha1.setText("Datos actualizados al: "+fecha);
                     generarGrafico2(reportes);
                     generarGrafico1(reportes);
 
@@ -85,7 +94,6 @@ public class DataRegionales extends AppCompatActivity {
     }
 
     public void generarGrafico1 (Reporte reportes[]){
-        AnyChartView anyChartView = findViewById(R.id.any_chart_view);
         APIlib.getInstance().setActiveAnyChartView(anyChartView);
         anyChartView.setProgressBar(findViewById(R.id.progress_bar));
         Polar polar = AnyChart.polar();
@@ -130,7 +138,7 @@ public class DataRegionales extends AppCompatActivity {
         polar.legend().fontColor("#CEE8F2");
 
         polar.legend().position("center-bottom").itemsLayout(LegendLayout.VERTICAL).align(Align.CENTER);
-
+        polar.xAxis().labels().fontSize(10d);
         polar.sortPointsByX(true)
                 .defaultSeriesType(PolarSeriesType.COLUMN)
                 .yAxis(false)
@@ -144,11 +152,9 @@ public class DataRegionales extends AppCompatActivity {
 
     }
     private void generarGrafico2(Reporte reportes[]){
-        AnyChartView anyChartView1 = findViewById(R.id.any_chart_view1);
         anyChartView1.setProgressBar(findViewById(R.id.progress_bar1));
         APIlib.getInstance().setActiveAnyChartView (anyChartView1);
         Cartesian cartesian = AnyChart.column();
-
         List<DataEntry> data = new ArrayList<>();
         for (int i = 0; i < reportes.length; i++) {
             if (reportes[i].getRegion().equalsIgnoreCase("Metropolitana")) {
@@ -168,18 +174,16 @@ public class DataRegionales extends AppCompatActivity {
                 .offsetX(0d)
                 .offsetY(5d)
                 .format("{%Value}{groupsSeparator: }");
-
         cartesian.animation(true);
         cartesian.title().fontColor("#CEE8F2");
         cartesian.labels().fontColor("#CEE8F2");
         cartesian.background("#102530");
         cartesian.yScale().minimum(0d);
-
+        cartesian.xAxis(0).labels().fontSize(11d);
         cartesian.yAxis(0).labels().format("{%Value}{groupsSeparator: }");
 
         cartesian.tooltip().positionMode(TooltipPositionMode.POINT);
         cartesian.interactivity().hoverMode(HoverMode.BY_X);
-
         anyChartView1.setChart(cartesian);
 
     }

@@ -22,9 +22,9 @@
     </TextView>
 
     <TextView
+        android:id="@+id/soyTitleyFecha"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="CASOS NUEVOS"
         android:gravity="center"
         android:padding="20dp"
         android:textSize="30dp"
@@ -41,10 +41,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Región Metropolitana"
+                android:text="Casos nuevos Región Metropolitana"
                 android:gravity="center"
                 android:padding="20dp"
-                android:textSize="20dp"
+                android:textSize="25dp"
                 android:fontFamily="@font/yanoneka"
                 ></TextView>
             <com.anychart.AnyChartView
@@ -63,7 +63,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Regiones"
+                android:text="Casos nuevos Regiones"
                 android:gravity="center"
                 android:padding="20dp"
                 android:textSize="25dp"

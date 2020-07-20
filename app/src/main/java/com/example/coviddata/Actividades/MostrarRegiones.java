@@ -147,7 +147,7 @@ public class MostrarRegiones extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences(CREDENTIALS, MODE_PRIVATE);
 
         String info = respuestaWSDataRegion.getInfo();
-
+        Integer idActivity = 2;
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("info", info);
         editor.putString("fecha", respuestaWSDataRegion.getFecha());
@@ -159,6 +159,7 @@ public class MostrarRegiones extends AppCompatActivity {
         editor.putInt("casos_nuevos_snotificar", respuestaWSDataRegion.getReporte().getCasos_nuevos_snotificar());
         editor.putInt("fallecidos", respuestaWSDataRegion.getReporte().getFallecidos());
         editor.putInt("casos_activos_confirmados", respuestaWSDataRegion.getReporte().getCasos_activos_confirmados());
+        editor.putInt("Actividad", idActivity);
         editor.commit();
     }
 

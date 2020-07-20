@@ -88,7 +88,7 @@ public class DataNacion extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences(CREDENTIALS, MODE_PRIVATE);
 
         String info = respuestaWSDataNacion.getInfo();
-
+        Integer idActivity = 1;
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("info", info);
         editor.putString("fecha", respuestaWSDataNacion.getFecha());
@@ -100,6 +100,7 @@ public class DataNacion extends AppCompatActivity {
         editor.putInt("casos_nuevos_snotificar", respuestaWSDataNacion.getReporte().getCasos_nuevos_snotificar());
         editor.putInt("fallecidos", respuestaWSDataNacion.getReporte().getFallecidos());
         editor.putInt("casos_activos_confirmados", respuestaWSDataNacion.getReporte().getCasos_activos_confirmados());
+        editor.putInt("Actividad", idActivity);
         editor.commit();
     }
 
