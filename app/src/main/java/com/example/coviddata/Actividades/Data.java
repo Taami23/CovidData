@@ -60,7 +60,7 @@ public class Data extends AppCompatActivity {
     private void mostarDatos(){
         APIlib.getInstance().setActiveAnyChartView(anyChartView);
         anyChartView.setProgressBar(findViewById(R.id.progress_bar));
-        SharedPreferences preferences = getSharedPreferences(MostrarRegiones.CREDENTIALS, MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences(MainActivity.CREDENTIALS, MODE_PRIVATE);
         String info = preferences.getString("info", "no encontrado");
         String fecha = preferences.getString("fecha", "no encontrado");
         int acumulado_total = preferences.getInt("acumulado_total", 0);

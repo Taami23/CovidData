@@ -36,7 +36,6 @@ public class MostrarRegiones extends AppCompatActivity {
     private ServicioWeb servicioWeb;
     private static String uniqueID = null;
     private static final  String PREF_UNIQUE_ID = "PREF_UNIQUE_ID";
-    public static final String CREDENTIALS = MostrarRegiones.class.getPackage().getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +47,11 @@ public class MostrarRegiones extends AppCompatActivity {
         Retrofit retrofit = new Retrofit.Builder().baseUrl("http://covid.unnamed-chile.com/api/")
                 .addConverterFactory(GsonConverterFactory.create()).build();
         servicioWeb = retrofit.create(ServicioWeb.class);
-        holi();
+        servicio();
 
     }
 
-    public void holi(){
+    public void servicio(){
 
         final Call<RespuestaWSRegiones> respuestaWSRegionesCall = servicioWeb.regiones();
         respuestaWSRegionesCall.enqueue(new Callback<RespuestaWSRegiones>() {
@@ -144,7 +143,7 @@ public class MostrarRegiones extends AppCompatActivity {
     }
 
     public void savePreferences(RespuestaWSDataRegion respuestaWSDataRegion){
-        SharedPreferences preferences = getSharedPreferences(CREDENTIALS, MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences(MainActivity.CREDENTIALS, MODE_PRIVATE);
 
         String info = respuestaWSDataRegion.getInfo();
         Integer idActivity = 2;

@@ -15,7 +15,6 @@
         <activity android:name=".Actividades.Data"></activity>
         <activity android:name=".Actividades.MostrarRegiones" />
         <activity android:name=".Actividades.DataRegionales" />
-        <activity android:name=".Actividades.DataNacion" />
         <activity android:name=".Actividades.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
